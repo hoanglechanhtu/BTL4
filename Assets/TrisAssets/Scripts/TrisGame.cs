@@ -11,7 +11,8 @@ public class TrisGame {
 	private SmartFox sfs;
 	private int whoseTurn;
 	private int myPlayerID;
-
+    public int n = 9;
+    public int m = 7;
 	public TrisGame() {
 		// Nothing to do
 	}
@@ -32,6 +33,7 @@ public class TrisGame {
 
 		// Tell extension I'm ready to play
 		sfs.Send(new ExtensionRequest("ready", new SFSObject(), sfs.LastJoinedRoom));
+        
 	}
 
 	/**
@@ -74,8 +76,8 @@ public class TrisGame {
 	 * Clear the game board.
 	 */
 	public void ResetGameBoard() {
-		for ( int i = 1; i <= 3; i++ ) {
-			for ( int j = 1; j <= 3; j++ ) {
+		for ( int i = 1; i <= m; i++ ) {
+			for ( int j = 1; j <= n; j++ ) {
 				GameObject tile = GameObject.Find("Tile" + i + j);
 				TileController ctrl = (TileController)tile.GetComponent("TileController");
 				// Player 1 gets the ring
@@ -93,8 +95,8 @@ public class TrisGame {
 	 */
 	private void EnableBoard(bool enable) {
 		if ( myPlayerID == whoseTurn ) {
-			for ( int i = 1; i <= 3; i++ ) {
-				for ( int j = 1; j <= 3; j++ ) {
+			for ( int i = 1; i <= m; i++ ) {
+				for ( int j = 1; j <= n; j++ ) {
 					GameObject tile = GameObject.Find("Tile" + i + j);
 					TileController ctrl = (TileController)tile.GetComponent("TileController");
 					ctrl.Enable(enable);

@@ -212,7 +212,7 @@ public class LobbyController : MonoBehaviour {
 	
 	private void OnRoomJoin(BaseEvent evt) {
 		Room room = (Room) evt.Params["room"];
-
+        
 		// If we joined a Game Room, then we either created it (and auto joined) or manually selected a game to join
 		if (room.IsGame) {
 			// Remove SFS2X listeners

@@ -93,7 +93,7 @@ public class GameController : MonoBehaviour {
         SFSObject dataObject = (SFSObject)evt.Params["params"];
         if (cmd.Equals("greet")) {
             String greet = dataObject.GetText("greet");
-            Debug.LogError(greet);
+            //Debug.LogError(greet);
         }
     }
 
