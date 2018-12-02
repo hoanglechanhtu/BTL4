@@ -26,7 +26,12 @@ public class TileController : MonoBehaviour {
 		clickEnabled = false;
 	}
 
-	public void Enable(bool enabled) {
+    public void Reset()
+    {
+        
+    }
+
+    public void Enable(bool enabled) {
 		clickEnabled = enabled;
 	}
 

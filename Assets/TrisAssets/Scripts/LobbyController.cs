@@ -10,7 +10,9 @@ using Sfs2X.Logging;
 using Sfs2X.Util;
 using Sfs2X.Core;
 using Sfs2X.Entities;
+using Sfs2X.Entities.Variables;
 using Sfs2X.Requests;
+ 
 
 public class LobbyController : MonoBehaviour {
 
@@ -122,6 +124,16 @@ public class LobbyController : MonoBehaviour {
 		sfs.Send(new Sfs2X.Requests.JoinRoomRequest(roomId));
 	}
 
+    public void OnPlayWithAiClick() {
+        RoomSettings settings = new RoomSettings(sfs.MySelf.Name + "'s game");
+        settings.GroupId = "games";
+        settings.MaxUsers = 1;
+        settings.MaxSpectators = 0;
+        settings.Extension = new RoomExtension(EXTENSION_ID, EXTENSION_CLASS);
+        RoomVariable isAI = new SFSRoomVariable("isAI", true);
+        settings.Variables.Add(isAI);
+        sfs.Send(new CreateRoomRequest(settings, true, sfs.LastJoinedRoom));
+    }
 	public void OnStartNewGameButtonClick() {
 		// Configure Game Room
         
@@ -219,8 +231,18 @@ public class LobbyController : MonoBehaviour {
 			reset ();
 
 
-			// Load game scene
-			SceneManager.LoadScene("Game");
+            if (room.ContainsVariable("isAI"))
+            {
+                if (room.GetVariable("isAI").GetBoolValue() == true)
+                {
+                    SceneManager.LoadScene("GameWithAI");
+                }
+                // Load game scene
+            }
+            else
+            {
+                SceneManager.LoadScene("Game");
+            }
 		} else {
 			// Show system message
 			printSystemMessage("\nYou joined a Room: " + room.Name);

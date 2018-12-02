@@ -93,6 +93,9 @@ public class LoginController : MonoBehaviour {
 		sfs.Connect(cfg);
 	}
 
+    public void OnPlayWithBotClick() {
+        SceneManager.LoadScene("AIGame");
+    }
 	//----------------------------------------------------------
 	// Private helper methods
 	//----------------------------------------------------------
