@@ -29,7 +29,6 @@ public class TileController1 : MonoBehaviour {
         Debug.Log("mouse down");
         if (BoardController.instance.whoseTurn == BoardController.Type.Player) {
             if (BoardController.instance.GetType(x, y) == BoardController.Type.None) {
-                
                 if (image) {
                     image.sprite = player;
                 }

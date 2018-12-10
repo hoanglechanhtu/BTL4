@@ -12,7 +12,7 @@ public class BoardController : MonoBehaviour {
         Win,
         Tie
     }
-
+    public int AI_difficult = 8;
     GameState state = GameState.Running;
     // Use this for initialization
     public static BoardController instance;
@@ -29,19 +29,23 @@ public class BoardController : MonoBehaviour {
     } 
     public Text col;
     public Text row;
+    public Text dif;
+    private TicTacToe_Minimax_AI.TicTacToeGame minimaxBOT;
+    public int[] getAiMove()
+    {
+        return minimaxBOT.ComputerMakeMove(AI_difficult);
+    }
     float width = 800;
     float height = 600;
     public GameObject tilePrefab;
-    
     Type[,] board;
     public GameObject[,] boardItem;
     private void ChangeTurn() {
         if (whoseTurn == Type.Player)
         {
             whoseTurn = Type.Enemy;
-            AIController.instance.move();
             stateMessage.text = "It's oponent's turn!";
-            //Call AI to play
+            AIController.instance.move();
         }
         else
         {
@@ -55,6 +59,10 @@ public class BoardController : MonoBehaviour {
     }
     public void OnMove(int x, int y, Type p) {
         board[x, y] = p;
+        if(p == Type.Player)
+        {
+            minimaxBOT.GetNextMoveFromUser(x, y);
+        }
         moveCount++;
         //TODO check game state
         state = checkGameState();
@@ -178,12 +186,13 @@ public class BoardController : MonoBehaviour {
         }
         n = int.Parse(col.text);
         m = int.Parse(row.text);
+        AI_difficult = int.Parse(dif.text);
+        
         boardItem = new GameObject[m, n];
         InitWith(n, m);
         GridLayoutGroup grid = transform.GetComponent<GridLayoutGroup>();
         grid.cellSize = new Vector2(width / n, height / m);
         board = new Type[m, n];
-       
         for (int i = 0; i < m; i++) { 
             for (int j = 0; j < n; j++)
             {
@@ -191,6 +200,9 @@ public class BoardController : MonoBehaviour {
                
             }
         }
+        //BOT here
+        minimaxBOT = new TicTacToe_Minimax_AI.TicTacToeGame(m, n);
+        /////////////////////////////////////////////////////////
         whoseTurn = Type.Player;
         stateMessage.text = "It's your turn!";
     }
