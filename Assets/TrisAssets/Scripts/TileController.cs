@@ -14,7 +14,8 @@ public class TileController : MonoBehaviour {
 	public GameObject ringObject;
 	private GameObject myObject;
 	private TrisGame gameInstance;
-
+    int x;
+    int y;
 	private bool clickEnabled;
 
 	// Use this for initialization
@@ -24,7 +25,10 @@ public class TileController : MonoBehaviour {
 		SetTileState(TileState.EMPTY);
 		this.playerHasCross = playerHasCross;
 		clickEnabled = false;
-	}
+        x = int.Parse(this.transform.name.Substring(4, 1));
+        y = int.Parse(this.transform.name.Substring(5, 1));
+
+    }
 
     public void Reset()
     {
@@ -44,7 +48,7 @@ public class TileController : MonoBehaviour {
 			} else {
 				SetTileState(TileState.RING);
 			}
-			gameInstance.PlayerMoveMade(int.Parse(this.transform.name.Substring(4, 1)), int.Parse(this.transform.name.Substring(5, 1)));
+			gameInstance.PlayerMoveMade(x, y);
 		}
 	}
 

@@ -25,7 +25,10 @@ public class GameController : MonoBehaviour {
 	public CanvasGroup chatControls;
 	public Text stateText;
 	public Button restartButton;
-
+    public Sprite win;
+    public Sprite lose;
+    public Sprite tie;
+    public Image panelFinish;
 	//----------------------------------------------------------
 	// Private properties
 	//----------------------------------------------------------
@@ -190,9 +193,33 @@ public class GameController : MonoBehaviour {
 			} else if (state == GameState.GAME_TIE) {
 				stateText.text += "\nIt's a tie!";
 			}
+            popUp(state);
 		}
 	}
-	
+
+
+    private void popUp(GameState state) {
+        panelFinish.gameObject.SetActive(true);
+        StartCoroutine(autoHide());
+        if (state == GameState.GAME_LOST)
+        {
+            panelFinish.sprite = lose;
+        }
+        else if (state == GameState.GAME_WON)
+        {
+            panelFinish.sprite = win;
+        }
+        else if (state == GameState.GAME_TIE)
+        {
+            panelFinish.sprite = tie;
+        }
+    }
+
+    IEnumerator autoHide() {
+        yield return new WaitForSeconds(2);
+        panelFinish.gameObject.SetActive(false);
+        yield return 0;
+    }
 	private void reset() {
 		// Remove SFS2X listeners
 		sfs.RemoveAllEventListeners();
